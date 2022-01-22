@@ -195,12 +195,11 @@ exports.editUser = async (req,res,next) => {
 exports.addVehicle = async (req,res,next) => {
   const {username,vehicle} = req.body
   vehicle.vehicleId = uuid()
-  vehicle.month = new Date().getMonth() + 1
   vehicle.location = null
+  vehicle.locationTime = null
 
-  vehicle.createdAt = msToTime(new Date().getTime() + Math.abs((new Date().getTimezoneOffset() * 60000))) 
-  vehicle.day = new Date().getDay()
-  vehicle.year = new Date().getFullYear()
+  vehicle.createdAt = new Date() 
+ 
 
   // console.log(clientActions.createdAt)
 
