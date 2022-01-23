@@ -225,12 +225,12 @@ exports.locationFromTracker = async (req,res,next) => {
 exports.removeVehicle = async (req,res,next) => {
   const {username, vehicleId} = req.body
 
-  await Userdb.findOneAndUpdate(
+  const user = await Userdb.findOneAndUpdate(
     { username }, 
-    { $pull: { vehicle: { vehicleId } } }
+    { $pull: { vehicle: { vehicleId } } }, {new:true}
     // Multi
 );
 
-res.json({success: true, message: "vehicle removed"});
+res.json({success: true, message: "vehicle removed", user});
 
 }
