@@ -204,8 +204,8 @@ exports.addVehicle = async (req,res,next) => {
 
   // console.log(clientActions.createdAt)
 
-  const user = await Userdb.findOneAndUpdate({username},{$push:{"vehicle": vehicle}})
-  console.log(vehicle)
+  const user = await Userdb.findOneAndUpdate({username},{$push:{"vehicle": vehicle}},{new: true})
+  console.log(user)
   res.json({success: true, message: "user vehicle saved successfully", user});
   
 }
