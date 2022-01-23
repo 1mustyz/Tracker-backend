@@ -105,6 +105,7 @@ exports.login = (req, res, next) => {
           otherName: user.otherName,
           phone: user.phone,
           image: user.image,
+          vehicle: user.vehicle,
           createdAt: user.createdAt,
           updatedAt: user.updatedAt,
           __v: user.__v
