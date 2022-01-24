@@ -212,10 +212,13 @@ exports.addVehicle = async (req,res,next) => {
 
 // recieve location from tracker
 exports.locationFromTracker = async (req,res,next) => {
-  const {vehicleId,location} = req.body
+  const {vehicleId,lat,lng} = req.body
+
+  const location = {lat,lng}
+  const locationTime = new Date()
 
   const user = await Userdb.findOneAndUpdate({"vehicle.vehicleId": vehicleId},
-  {$set:{"vehicle.$.location": location}})
+  {$set:{"vehicle.$.location": location,"vehicle.$.locationTime": locationTime}})
 
   // console.log(clientActions)
   res.json({success: true, message: "location recieved"});
