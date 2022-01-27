@@ -36,8 +36,7 @@ router.put('/set-profile-pic',  userController.setProfilePic);
 // add vehicle
 router.put('/add-vehicle', userController.addVehicle)
 
-// receive location from tracker
-router.put('/tracker-notification', userController.locationFromTracker)
+
 
 // remove vehicle
 router.put('/remove-vehicle', userController.removeVehicle)

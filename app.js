@@ -10,6 +10,17 @@ const MongoStore = require('connect-mongo')
 const cors = require('cors')
 const Userdb = require('./models/user')
 const LocalStrategy = require('passport-local').Strategy;
+const Pusher = require("pusher");
+
+const pusher = new Pusher({
+  appId: "1336849",
+  key: "9468633eaae788047980",
+  secret: "3c472d7bb9cc773648c2",
+  cluster: "mt1",
+  useTLS: true
+});
+
+
 
 
 const { uuid } = require('uuidv4');
@@ -96,6 +107,26 @@ passport.serializeUser(Userdb.serializeUser());
 passport.deserializeUser(Userdb.deserializeUser());
 
 passport.use(new LocalStrategy(Userdb.authenticate()));
+
+
+// receive location from tracker
+app.put('/tracker-notification', async function(req,res,next){
+  const {vehicleId,lat,lng} = req.body
+
+  const location = {lat,lng}
+  const locationTime = new Date()
+
+  const user = await Userdb.findOneAndUpdate({"vehicle.vehicleId": vehicleId},
+  {$set:{"vehicle.$.location": location,"vehicle.$.locationTime": locationTime}},{new: true})
+
+  pusher.trigger("my-channel", "my-event", {
+    user,
+    location,
+    locationTime
+  });
+  // console.log(clientActions)
+  res.json({success: true, message: "location recieved"});
+})
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
